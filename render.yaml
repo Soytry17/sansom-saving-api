@@ -36,6 +36,10 @@ services:
         value: "true"
       - key: MAIL_FROM_NAME
         value: Sonsam-Saving
+      # Brevo HTTP API key — production email transport (SMTP ports are blocked
+      # on Render). When set, email is sent via Brevo over HTTPS instead of SMTP.
+      - key: BREVO_API_KEY
+        sync: false
       - key: PUSH_TEST_ENABLED
         value: "false" # keep the test-push endpoint disabled in production
 

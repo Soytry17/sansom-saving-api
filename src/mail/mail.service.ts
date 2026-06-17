@@ -1,37 +1,56 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import type { Transporter } from 'nodemailer';
 
+/** Resolved sender identity used by both transports. */
+interface Sender {
+  name: string;
+  address: string;
+}
+
 @Injectable()
 export class MailService {
+  private readonly logger = new Logger(MailService.name);
   private transporter?: Transporter;
+
+  private getSender(): Sender {
+    const name = process.env.MAIL_FROM_NAME ?? 'Sonsam Saving';
+    const address = process.env.MAIL_FROM_ADDRESS ?? process.env.MAIL_USER;
+    if (!address) {
+      throw new Error(
+        'MAIL_FROM_ADDRESS (or MAIL_USER) is required to send email',
+      );
+    }
+    return { name, address };
+  }
 
   private getTransporter(): { transporter: Transporter; from: string } {
     const host = process.env.MAIL_HOST ?? 'smtp.gmail.com';
     const port = Number(process.env.MAIL_PORT ?? 465);
     const user = process.env.MAIL_USER;
     const pass = process.env.MAIL_PASS;
-    const fromName = process.env.MAIL_FROM_NAME ?? 'Sonsam Saving';
-    const fromAddress = process.env.MAIL_FROM_ADDRESS ?? user;
+    const sender = this.getSender();
 
-    if (!user || !pass || !fromAddress) {
-      throw new Error(
-        'MAIL_USER, MAIL_PASS, and MAIL_FROM_ADDRESS are required for email OTP',
-      );
+    if (!user || !pass) {
+      throw new Error('MAIL_USER and MAIL_PASS are required for SMTP email OTP');
     }
 
     this.transporter ??= nodemailer.createTransport({
-        host,
-        port,
-        secure: process.env.MAIL_SECURE
-          ? process.env.MAIL_SECURE === 'true'
-          : port === 465,
-        auth: { user, pass },
-      });
+      host,
+      port,
+      secure: process.env.MAIL_SECURE
+        ? process.env.MAIL_SECURE === 'true'
+        : port === 465,
+      auth: { user, pass },
+    });
 
     return {
       transporter: this.transporter,
-      from: `"${fromName}" <${fromAddress}>`,
+      from: `"${sender.name}" <${sender.address}>`,
     };
   }
 
@@ -62,14 +81,8 @@ export class MailService {
     code: string;
     helpText: string;
   }): Promise<void> {
-    try {
-      const { transporter, from } = this.getTransporter();
-      await transporter.sendMail({
-        from,
-        to: input.to,
-        subject: input.subject,
-        text: `${input.title}\n\nYour code is ${input.code}.\n\n${input.helpText}\nThis code expires in 10 minutes.`,
-        html: `
+    const text = `${input.title}\n\nYour code is ${input.code}.\n\n${input.helpText}\nThis code expires in 10 minutes.`;
+    const html = `
           <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #111827;">
             <h2>${input.title}</h2>
             <p>${input.helpText}</p>
@@ -79,10 +92,72 @@ export class MailService {
             <p>This code expires in 10 minutes.</p>
             <p>If you did not request this, you can ignore this email.</p>
           </div>
-        `,
-      });
-    } catch {
+        `;
+
+    try {
+      // Prefer Brevo's HTTP API in production: it sends over HTTPS (443),
+      // which hosts like Render allow, unlike SMTP ports (25/465/587) that
+      // are commonly blocked. Falls back to SMTP when no Brevo key is set
+      // (handy for local development with Gmail).
+      if (process.env.BREVO_API_KEY) {
+        await this.sendViaBrevo(input.to, input.subject, text, html);
+      } else {
+        await this.sendViaSmtp(input.to, input.subject, text, html);
+      }
+    } catch (err) {
+      // Surface the real reason in the logs (e.g. ETIMEDOUT = SMTP port
+      // blocked by the host, EAUTH = bad credentials/app password, or a
+      // Brevo 401/400) while keeping the client-facing message generic.
+      this.logger.error(
+        `Failed to send OTP email to ${input.to}`,
+        err instanceof Error ? err.stack : String(err),
+      );
       throw new InternalServerErrorException('Failed to send email OTP');
+    }
+  }
+
+  private async sendViaSmtp(
+    to: string,
+    subject: string,
+    text: string,
+    html: string,
+  ): Promise<void> {
+    const { transporter, from } = this.getTransporter();
+    await transporter.sendMail({ from, to, subject, text, html });
+  }
+
+  /**
+   * Send through Brevo's transactional email HTTP API.
+   * Docs: https://developers.brevo.com/reference/sendtransacemail
+   * The sender address must be a verified sender (or verified domain) in
+   * your Brevo account, otherwise Brevo rejects the request.
+   */
+  private async sendViaBrevo(
+    to: string,
+    subject: string,
+    text: string,
+    html: string,
+  ): Promise<void> {
+    const sender = this.getSender();
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': process.env.BREVO_API_KEY as string,
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { name: sender.name, email: sender.address },
+        to: [{ email: to }],
+        subject,
+        textContent: text,
+        htmlContent: html,
+      }),
+    });
+
+    if (!res.ok) {
+      const detail = await res.text();
+      throw new Error(`Brevo API ${res.status}: ${detail}`);
     }
   }
 }
