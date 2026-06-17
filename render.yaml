@@ -15,7 +15,9 @@ services:
     # Install with pnpm, generate the Prisma client, apply migrations to the
     # production DB, then compile. `migrate deploy` only applies committed
     # migrations (never generates new ones), which is the production-safe path.
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma migrate deploy && pnpm build
+    # Do NOT run `corepack enable` on Render — /usr/bin is read-only and that
+    # command fails with EROFS. Render detects pnpm from pnpm-lock.yaml.
+    buildCommand: pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma migrate deploy && pnpm build
     startCommand: pnpm start:prod
 
     # Swagger UI returns 200 and needs no auth — a cheap liveness check.
