@@ -1,0 +1,3013 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pending registration saved. User/account/categories are created after email verification.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/RegisterResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Start registration and send an email verification code",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/verify-email": {
+      "post": {
+        "operationId": "AuthController_verifyEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/VerifyEmailResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Verify registration code and create the wallet account",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/resend-verification": {
+      "post": {
+        "operationId": "AuthController_resendVerification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailOnlyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Resend the registration verification code",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/LoginResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Authenticate user and return a JWT token",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/forgot-password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailOnlyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Send a password reset code by email",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/reset-password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Reset password using an email OTP code",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Logout the current user (stateless JWT)",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/account/me": {
+      "get": {
+        "operationId": "AccountController_getMyAccount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AccountDetailsDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get the signed-in user's account details",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/account/qr": {
+      "get": {
+        "operationId": "AccountController_getQrCode",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/AccountQrDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a QR code for receiving transfers into this account",
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "operationId": "UserController_getMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/UserProfileDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get the current user's profile",
+        "tags": [
+          "User"
+        ]
+      },
+      "put": {
+        "operationId": "UserController_updateMe",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update the current user's profile",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "operationId": "CategoryController_list",
+        "parameters": [
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by category type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "income",
+                "expense"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of active (non-deleted) categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/CategoryResponseDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List active categories for the current user",
+        "tags": [
+          "Category"
+        ]
+      },
+      "post": {
+        "operationId": "CategoryController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CategoryResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a custom category",
+        "tags": [
+          "Category"
+        ]
+      }
+    },
+    "/api/categories/{id}": {
+      "put": {
+        "operationId": "CategoryController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Rename a category — protected names (Transfer In / Out) are blocked",
+        "tags": [
+          "Category"
+        ]
+      },
+      "delete": {
+        "operationId": "CategoryController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Soft-delete a category — protected names (Transfer In / Out) are blocked",
+        "tags": [
+          "Category"
+        ]
+      }
+    },
+    "/api/transactions": {
+      "get": {
+        "operationId": "TransactionController_list",
+        "parameters": [
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "income",
+                "expense"
+              ]
+            }
+          },
+          {
+            "name": "source",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "manual",
+                "transfer"
+              ]
+            }
+          },
+          {
+            "name": "categoryId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "description": "Start date (inclusive, YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-05-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "description": "End date (inclusive, YYYY-MM-DD)",
+            "schema": {
+              "example": "2026-05-31",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated transaction list (newest first)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/PaginatedDataDto"
+                            },
+                            {
+                              "properties": {
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "$ref": "#/components/schemas/TransactionResponseDto"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List transactions with optional filters and pagination",
+        "tags": [
+          "Transaction"
+        ]
+      },
+      "post": {
+        "operationId": "TransactionController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CreateTransactionResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a manual transaction (income or expense). Expense is rejected if it would overdraw the account.",
+        "tags": [
+          "Transaction"
+        ]
+      }
+    },
+    "/api/transactions/{id}": {
+      "get": {
+        "operationId": "TransactionController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/TransactionResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a single transaction owned by the current user",
+        "tags": [
+          "Transaction"
+        ]
+      },
+      "put": {
+        "operationId": "TransactionController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransactionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a manual transaction. Transfer-sourced transactions are immutable.",
+        "tags": [
+          "Transaction"
+        ]
+      },
+      "delete": {
+        "operationId": "TransactionController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete a manual transaction and reverse its effect on the balance. Transfer-sourced transactions are immutable.",
+        "tags": [
+          "Transaction"
+        ]
+      }
+    },
+    "/api/transfer": {
+      "post": {
+        "operationId": "TransferController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransferDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CreateTransferResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Send money to another account (P2P). Atomic: balance check, paired transactions, and a notification to the receiver are all committed together or rolled back.",
+        "tags": [
+          "Transfer"
+        ]
+      }
+    },
+    "/api/transfer/history": {
+      "get": {
+        "operationId": "TransferController_history",
+        "parameters": [
+          {
+            "name": "direction",
+            "required": false,
+            "in": "query",
+            "description": "Filter by direction (omit to include both)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "sent",
+                "received"
+              ]
+            }
+          },
+          {
+            "name": "start",
+            "required": false,
+            "in": "query",
+            "description": "Start date (inclusive)",
+            "schema": {
+              "example": "2026-05-01",
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "required": false,
+            "in": "query",
+            "description": "End date (inclusive)",
+            "schema": {
+              "example": "2026-05-31",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of transfer history items (newest first)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TransferHistoryItemDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List transfers where the current user is the sender, receiver, or both.",
+        "tags": [
+          "Transfer"
+        ]
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "operationId": "NotificationController_list",
+        "parameters": [
+          {
+            "name": "isRead",
+            "required": false,
+            "in": "query",
+            "description": "Filter by read status (true/false)",
+            "schema": {
+              "example": false,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated notification list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "allOf": [
+                            {
+                              "$ref": "#/components/schemas/PaginatedDataDto"
+                            },
+                            {
+                              "properties": {
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "$ref": "#/components/schemas/NotificationResponseDto"
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List the current user's notifications (newest first). Filter by isRead and paginate with page/limit.",
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/notifications/read-all": {
+      "put": {
+        "operationId": "NotificationController_markAllAsRead",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mark all of the current user's notifications as read",
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/notifications/{id}/read": {
+      "put": {
+        "operationId": "NotificationController_markAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "format": "int64",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Mark a single notification as read",
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/notifications/settings": {
+      "get": {
+        "operationId": "NotificationController_getSettings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/NotificationSettingsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get the current user's notification preferences",
+        "tags": [
+          "Notification"
+        ]
+      },
+      "post": {
+        "operationId": "NotificationController_saveSettings",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveNotificationSettingsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/NotificationSettingsResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Save (upsert) the current user's notification preferences",
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/notifications/test": {
+      "post": {
+        "operationId": "NotificationController_sendTest",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Send a test push to the current user's devices (dev/QA only — disabled in production unless PUSH_TEST_ENABLED=true)",
+        "tags": [
+          "Notification"
+        ]
+      }
+    },
+    "/api/reports/monthly": {
+      "get": {
+        "operationId": "ReportController_monthly",
+        "parameters": [
+          {
+            "name": "month",
+            "required": true,
+            "in": "query",
+            "description": "Month (1–12)",
+            "schema": {
+              "minimum": 1,
+              "maximum": 12,
+              "example": 5,
+              "type": "number"
+            }
+          },
+          {
+            "name": "year",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 1970,
+              "maximum": 9999,
+              "example": 2026,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/MonthlyReportResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Income / expense / net savings for a specific month",
+        "tags": [
+          "Report"
+        ]
+      }
+    },
+    "/api/reports/category": {
+      "get": {
+        "operationId": "ReportController_category",
+        "parameters": [
+          {
+            "name": "type",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "example": "expense",
+              "type": "string",
+              "enum": [
+                "income",
+                "expense"
+              ]
+            }
+          },
+          {
+            "name": "month",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 12,
+              "example": 5,
+              "type": "number"
+            }
+          },
+          {
+            "name": "year",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1970,
+              "maximum": 9999,
+              "example": 2026,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CategoryReportResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Per-category breakdown for a given transaction type. Optional month/year (both-or-neither). Sorted by total descending.",
+        "tags": [
+          "Report"
+        ]
+      }
+    },
+    "/api/reports/trends": {
+      "get": {
+        "operationId": "ReportController_trends",
+        "parameters": [
+          {
+            "name": "months",
+            "required": false,
+            "in": "query",
+            "description": "Number of past months to include (current month included)",
+            "schema": {
+              "minimum": 1,
+              "maximum": 24,
+              "default": 6,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TrendItemDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Income vs expense across the last N months (current month included). Default 6, max 24.",
+        "tags": [
+          "Report"
+        ]
+      }
+    },
+    "/api/reports/weekly": {
+      "get": {
+        "operationId": "ReportController_weekly",
+        "parameters": [
+          {
+            "name": "month",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 12,
+              "example": 5,
+              "type": "number"
+            }
+          },
+          {
+            "name": "year",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 1970,
+              "maximum": 9999,
+              "example": 2026,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/WeeklyItemDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Income vs expense bucketed by calendar week (1-7, 8-14, …) within a given month. Returns 4 or 5 buckets.",
+        "tags": [
+          "Report"
+        ]
+      }
+    },
+    "/api/dashboard/summary": {
+      "get": {
+        "operationId": "DashboardController_getSummary",
+        "parameters": [
+          {
+            "name": "month",
+            "required": false,
+            "in": "query",
+            "description": "Month (1–12). Must be supplied together with `year`.",
+            "schema": {
+              "minimum": 1,
+              "maximum": 12,
+              "example": 5,
+              "type": "number"
+            }
+          },
+          {
+            "name": "year",
+            "required": false,
+            "in": "query",
+            "description": "Year (e.g. 2026). Must be supplied together with `month`.",
+            "schema": {
+              "minimum": 1970,
+              "maximum": 9999,
+              "example": 2026,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/SummaryResponseDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Financial overview: current balance + income/expense totals. Supply month+year together to scope to a single month, or omit both for all-time.",
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/dashboard/recent": {
+      "get": {
+        "operationId": "DashboardController_getRecent",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of recent transactions to return",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/RecentTransactionDto"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Most recent transactions for the current user (newest first). Default limit 10, max 100.",
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/devices": {
+      "post": {
+        "operationId": "DevicesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeviceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Register or refresh this device's FCM token for push notifications. Call on login and whenever Firebase issues a new token.",
+        "tags": [
+          "Device"
+        ]
+      }
+    },
+    "/api/devices/unregister": {
+      "post": {
+        "operationId": "DevicesController_unregister",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnregisterDeviceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "null",
+                          "nullable": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove this device's FCM token (call on logout) so it stops receiving the user's push notifications.",
+        "tags": [
+          "Device"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Sonsam Saving API",
+    "description": "Personal Finance Tracker — REST API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "ApiResponseDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "example": "Success",
+            "description": "Human-readable message"
+          },
+          "data": {
+            "type": "object",
+            "description": "Response payload (null when there is no body)"
+          }
+        },
+        "required": [
+          "statusCode",
+          "message",
+          "data"
+        ]
+      },
+      "RegisterResponseDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "message": {
+            "type": "string",
+            "example": "Verification code sent to your email. Code expires in 10 minutes."
+          }
+        },
+        "required": [
+          "email",
+          "message"
+        ]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "securepass123",
+            "minLength": 8
+          },
+          "phone": {
+            "type": "string",
+            "example": "012345678"
+          }
+        },
+        "required": [
+          "fullName",
+          "email",
+          "password"
+        ]
+      },
+      "UserSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          }
+        },
+        "required": [
+          "id",
+          "fullName",
+          "email"
+        ]
+      },
+      "AccountSummaryDto": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00001"
+          },
+          "balance": {
+            "type": "string",
+            "example": "0.00"
+          }
+        },
+        "required": [
+          "accountNumber",
+          "balance"
+        ]
+      },
+      "VerifyEmailResponseDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "description": "JWT access token (expires in 7 days)"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserSummaryDto"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountSummaryDto"
+          }
+        },
+        "required": [
+          "token",
+          "user",
+          "account"
+        ]
+      },
+      "VerifyEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com",
+            "format": "email"
+          },
+          "code": {
+            "type": "string",
+            "example": "482913",
+            "minLength": 6,
+            "maxLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "code"
+        ]
+      },
+      "EmailOnlyDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com",
+            "format": "email"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "LoginResponseDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "description": "JWT access token (expires in 7 days)"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserSummaryDto"
+          }
+        },
+        "required": [
+          "token",
+          "user"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "example": "securepass123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com",
+            "format": "email"
+          },
+          "code": {
+            "type": "string",
+            "example": "482913",
+            "minLength": 6,
+            "maxLength": 6
+          },
+          "newPassword": {
+            "type": "string",
+            "example": "newsecurepass123",
+            "minLength": 8
+          }
+        },
+        "required": [
+          "email",
+          "code",
+          "newPassword"
+        ]
+      },
+      "AccountDetailsDto": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00001"
+          },
+          "balance": {
+            "type": "string",
+            "example": "0.00",
+            "description": "Decimal serialized as string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-04-29T04:43:29.568Z"
+          }
+        },
+        "required": [
+          "accountNumber",
+          "balance",
+          "createdAt"
+        ]
+      },
+      "AccountQrDto": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00001"
+          },
+          "ownerName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "qrImageBase64": {
+            "type": "string",
+            "example": "data:image/png;base64,iVBORw0KGgoAAAA...",
+            "description": "Base64-encoded PNG of the account-number QR code"
+          }
+        },
+        "required": [
+          "accountNumber",
+          "ownerName",
+          "qrImageBase64"
+        ]
+      },
+      "UserProfileDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1",
+            "description": "User ID (BigInt serialized as string)"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "phone": {
+            "type": "object",
+            "example": "012345678",
+            "nullable": true
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-04-29T04:43:29.250Z"
+          }
+        },
+        "required": [
+          "id",
+          "fullName",
+          "email",
+          "createdAt"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "John Updated"
+          },
+          "phone": {
+            "type": "string",
+            "example": "098765432"
+          }
+        }
+      },
+      "CategoryResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "13",
+            "description": "Category ID (BigInt as string)"
+          },
+          "name": {
+            "type": "string",
+            "example": "Freelance"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "income"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-04-29T10:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "createdAt"
+        ]
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Freelance",
+            "maxLength": 100
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "income"
+          }
+        },
+        "required": [
+          "name",
+          "type"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Side Hustle",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PaginationDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1
+          },
+          "limit": {
+            "type": "number",
+            "example": 20
+          },
+          "total": {
+            "type": "number",
+            "example": 45
+          }
+        },
+        "required": [
+          "page",
+          "limit",
+          "total"
+        ]
+      },
+      "PaginatedDataDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "array"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationDto"
+          }
+        },
+        "required": [
+          "items",
+          "pagination"
+        ]
+      },
+      "CategoryRefDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "7"
+          },
+          "name": {
+            "type": "string",
+            "example": "Food"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "TransactionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1"
+          },
+          "amount": {
+            "type": "string",
+            "example": "15.50",
+            "description": "Decimal serialized as string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "expense"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "transfer"
+            ],
+            "example": "manual"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CategoryRefDto"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-05-03",
+            "description": "YYYY-MM-DD"
+          },
+          "note": {
+            "type": "object",
+            "example": "Lunch",
+            "nullable": true
+          },
+          "refId": {
+            "type": "object",
+            "example": null,
+            "nullable": true,
+            "description": "Transfer ID when source = transfer, otherwise null"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-05-03T12:30:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "amount",
+          "type",
+          "source",
+          "category",
+          "date",
+          "createdAt"
+        ]
+      },
+      "CreateTransactionResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "10"
+          },
+          "amount": {
+            "type": "string",
+            "example": "500.00"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "income"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "transfer"
+            ],
+            "example": "manual"
+          },
+          "newBalance": {
+            "type": "string",
+            "example": "750.00",
+            "description": "Account balance after applying this transaction"
+          }
+        },
+        "required": [
+          "id",
+          "amount",
+          "type",
+          "source",
+          "newBalance"
+        ]
+      },
+      "CreateTransactionDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 500,
+            "description": "Positive amount, max 2 decimals"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "income"
+          },
+          "categoryId": {
+            "type": "number",
+            "example": 1,
+            "description": "Category ID — must belong to the user and match the transaction type"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-05-01",
+            "description": "YYYY-MM-DD"
+          },
+          "note": {
+            "type": "string",
+            "example": "Monthly salary",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "amount",
+          "type",
+          "categoryId",
+          "date"
+        ]
+      },
+      "UpdateTransactionDto": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 520
+          },
+          "categoryId": {
+            "type": "number",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-05-01"
+          },
+          "note": {
+            "type": "string",
+            "example": "Salary + bonus",
+            "maxLength": 500
+          }
+        }
+      },
+      "TransferReceiverDto": {
+        "type": "object",
+        "properties": {
+          "accountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00002"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          }
+        },
+        "required": [
+          "accountNumber",
+          "name"
+        ]
+      },
+      "CreateTransferResponseDto": {
+        "type": "object",
+        "properties": {
+          "transferId": {
+            "type": "string",
+            "example": "5"
+          },
+          "amount": {
+            "type": "string",
+            "example": "20.00",
+            "description": "Decimal serialized as string"
+          },
+          "receiver": {
+            "$ref": "#/components/schemas/TransferReceiverDto"
+          },
+          "newBalance": {
+            "type": "string",
+            "example": "230.00",
+            "description": "Sender's balance after the transfer"
+          }
+        },
+        "required": [
+          "transferId",
+          "amount",
+          "receiver",
+          "newBalance"
+        ]
+      },
+      "CreateTransferDto": {
+        "type": "object",
+        "properties": {
+          "receiverAccountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00002",
+            "description": "Receiver account number in format ACC-YYYYMMDD-NNNNN"
+          },
+          "amount": {
+            "type": "number",
+            "example": 20,
+            "description": "Positive amount, max 2 decimals"
+          },
+          "note": {
+            "type": "string",
+            "example": "Treat for coffee",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "receiverAccountNumber",
+          "amount"
+        ]
+      },
+      "TransferCounterpartDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Jane Doe"
+          },
+          "accountNumber": {
+            "type": "string",
+            "example": "ACC-20260429-00002"
+          }
+        },
+        "required": [
+          "name",
+          "accountNumber"
+        ]
+      },
+      "TransferHistoryItemDto": {
+        "type": "object",
+        "properties": {
+          "transferId": {
+            "type": "string",
+            "example": "5"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "sent",
+              "received"
+            ],
+            "example": "sent",
+            "description": "sent — current user is the sender; received — current user is the receiver"
+          },
+          "amount": {
+            "type": "string",
+            "example": "20.00"
+          },
+          "note": {
+            "type": "object",
+            "example": "Treat for coffee",
+            "nullable": true
+          },
+          "counterpart": {
+            "$ref": "#/components/schemas/TransferCounterpartDto"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-05-10T14:00:00.000Z"
+          }
+        },
+        "required": [
+          "transferId",
+          "direction",
+          "amount",
+          "counterpart",
+          "createdAt"
+        ]
+      },
+      "NotificationResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1",
+            "description": "Notification ID"
+          },
+          "title": {
+            "type": "string",
+            "example": "Transfer Received"
+          },
+          "message": {
+            "type": "string",
+            "example": "You received 20.00 from John Doe"
+          },
+          "isRead": {
+            "type": "boolean",
+            "example": false
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2026-05-10T14:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "message",
+          "isRead",
+          "createdAt"
+        ]
+      },
+      "NotificationSettingsResponseDto": {
+        "type": "object",
+        "properties": {
+          "transferAlert": {
+            "type": "boolean",
+            "example": true
+          },
+          "monthlyReport": {
+            "type": "boolean",
+            "example": true
+          },
+          "lowBalanceAlert": {
+            "type": "boolean",
+            "example": true
+          },
+          "lowBalanceThreshold": {
+            "type": "string",
+            "example": "50.00",
+            "description": "Decimal stored as string for precise client-side handling"
+          }
+        },
+        "required": [
+          "transferAlert",
+          "monthlyReport",
+          "lowBalanceAlert",
+          "lowBalanceThreshold"
+        ]
+      },
+      "SaveNotificationSettingsDto": {
+        "type": "object",
+        "properties": {
+          "transferAlert": {
+            "type": "boolean",
+            "example": true,
+            "description": "Receive a notification when a transfer is received"
+          },
+          "monthlyReport": {
+            "type": "boolean",
+            "example": true,
+            "description": "Receive a monthly summary report"
+          },
+          "lowBalanceAlert": {
+            "type": "boolean",
+            "example": true,
+            "description": "Receive an alert when balance falls below threshold"
+          },
+          "lowBalanceThreshold": {
+            "type": "number",
+            "example": 50,
+            "description": "Threshold (in account currency) below which the low-balance alert fires"
+          }
+        },
+        "required": [
+          "transferAlert",
+          "monthlyReport",
+          "lowBalanceAlert",
+          "lowBalanceThreshold"
+        ]
+      },
+      "MonthlyReportResponseDto": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string",
+            "example": "May 2026"
+          },
+          "totalIncome": {
+            "type": "string",
+            "example": "1000.00"
+          },
+          "totalExpense": {
+            "type": "string",
+            "example": "270.00"
+          },
+          "netSavings": {
+            "type": "string",
+            "example": "730.00",
+            "description": "totalIncome − totalExpense"
+          }
+        },
+        "required": [
+          "month",
+          "totalIncome",
+          "totalExpense",
+          "netSavings"
+        ]
+      },
+      "CategoryBreakdownItemDto": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Food"
+          },
+          "total": {
+            "type": "string",
+            "example": "120.00",
+            "description": "Sum of amounts in this category"
+          },
+          "count": {
+            "type": "number",
+            "example": 8,
+            "description": "Number of transactions"
+          },
+          "percentage": {
+            "type": "number",
+            "example": 44.4,
+            "description": "Share of grandTotal as a percentage (rounded to 1 decimal)"
+          }
+        },
+        "required": [
+          "category",
+          "total",
+          "count",
+          "percentage"
+        ]
+      },
+      "CategoryReportResponseDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "expense"
+          },
+          "period": {
+            "type": "string",
+            "example": "May 2026",
+            "description": "Period label, or \"All time\""
+          },
+          "grandTotal": {
+            "type": "string",
+            "example": "270.00"
+          },
+          "breakdown": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryBreakdownItemDto"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "period",
+          "grandTotal",
+          "breakdown"
+        ]
+      },
+      "TrendItemDto": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "string",
+            "example": "May 2026"
+          },
+          "income": {
+            "type": "string",
+            "example": "1000.00"
+          },
+          "expense": {
+            "type": "string",
+            "example": "270.00"
+          },
+          "savings": {
+            "type": "string",
+            "example": "730.00",
+            "description": "income − expense"
+          }
+        },
+        "required": [
+          "month",
+          "income",
+          "expense",
+          "savings"
+        ]
+      },
+      "WeeklyItemDto": {
+        "type": "object",
+        "properties": {
+          "week": {
+            "type": "string",
+            "example": "Week 1"
+          },
+          "startDate": {
+            "type": "string",
+            "example": "2026-05-01",
+            "description": "Inclusive (YYYY-MM-DD)"
+          },
+          "endDate": {
+            "type": "string",
+            "example": "2026-05-07",
+            "description": "Inclusive (YYYY-MM-DD)"
+          },
+          "income": {
+            "type": "string",
+            "example": "500.00"
+          },
+          "expense": {
+            "type": "string",
+            "example": "300.00"
+          },
+          "savings": {
+            "type": "string",
+            "example": "200.00",
+            "description": "income − expense"
+          }
+        },
+        "required": [
+          "week",
+          "startDate",
+          "endDate",
+          "income",
+          "expense",
+          "savings"
+        ]
+      },
+      "SummaryResponseDto": {
+        "type": "object",
+        "properties": {
+          "totalBalance": {
+            "type": "string",
+            "example": "730.00",
+            "description": "User's current account balance (lifetime, not period-scoped)"
+          },
+          "totalIncome": {
+            "type": "string",
+            "example": "1000.00",
+            "description": "Sum of all income transactions in the period (or all-time if no period given). Includes transfer-in."
+          },
+          "totalExpense": {
+            "type": "string",
+            "example": "270.00",
+            "description": "Sum of all expense transactions in the period (or all-time if no period given). Includes transfer-out."
+          },
+          "period": {
+            "type": "string",
+            "example": "May 2026",
+            "description": "Human-readable period label, or \"All time\" when no month/year is supplied"
+          }
+        },
+        "required": [
+          "totalBalance",
+          "totalIncome",
+          "totalExpense",
+          "period"
+        ]
+      },
+      "RecentTransactionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "10",
+            "description": "Transaction ID"
+          },
+          "amount": {
+            "type": "string",
+            "example": "15.50",
+            "description": "Amount as decimal string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "income",
+              "expense"
+            ],
+            "example": "expense"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "transfer"
+            ],
+            "example": "manual"
+          },
+          "category": {
+            "type": "string",
+            "example": "Food",
+            "description": "Category name"
+          },
+          "date": {
+            "type": "string",
+            "example": "2026-05-03",
+            "description": "Transaction date (YYYY-MM-DD)"
+          },
+          "note": {
+            "type": "string",
+            "example": "Lunch",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "amount",
+          "type",
+          "source",
+          "category",
+          "date",
+          "note"
+        ]
+      },
+      "RegisterDeviceDto": {
+        "type": "object",
+        "properties": {
+          "fcmToken": {
+            "type": "string",
+            "example": "fGc1...long-fcm-token",
+            "description": "The FCM registration token issued to this device by Firebase"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "android",
+              "ios"
+            ],
+            "example": "android"
+          }
+        },
+        "required": [
+          "fcmToken",
+          "platform"
+        ]
+      },
+      "UnregisterDeviceDto": {
+        "type": "object",
+        "properties": {
+          "fcmToken": {
+            "type": "string",
+            "example": "fGc1...long-fcm-token",
+            "description": "The FCM token to remove so this device stops receiving pushes"
+          }
+        },
+        "required": [
+          "fcmToken"
+        ]
+      }
+    }
+  }
+}

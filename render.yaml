@@ -1,0 +1,56 @@
+# Render Blueprint for the Sonsam Saving API.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Secrets (sync: false) are NOT stored here — set them in the Render dashboard
+# (or when prompted on first Blueprint sync). Never commit real secrets to git.
+services:
+  - type: web
+    name: sonsam-saving-api
+    runtime: node
+    plan: free
+    region: singapore # closest free region for SE Asia; change if you prefer
+    branch: main
+    autoDeploy: true
+
+    # Install with pnpm, generate the Prisma client, apply migrations to the
+    # production DB, then compile. `migrate deploy` only applies committed
+    # migrations (never generates new ones), which is the production-safe path.
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm prisma generate && pnpm prisma migrate deploy && pnpm build
+    startCommand: pnpm start:prod
+
+    # Swagger UI returns 200 and needs no auth — a cheap liveness check.
+    healthCheckPath: /docs
+
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: "465"
+      - key: MAIL_SECURE
+        value: "true"
+      - key: MAIL_FROM_NAME
+        value: Sonsam-Saving
+      - key: PUSH_TEST_ENABLED
+        value: "false" # keep the test-push endpoint disabled in production
+
+      # ----- Secrets: set these in the dashboard, not in git -----
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: MAIL_USER
+        sync: false
+      - key: MAIL_PASS
+        sync: false
+      - key: MAIL_FROM_ADDRESS
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT_BASE64
+        sync: false
+      # Optional: comma-separated allowlist of web origins for CORS.
+      # Not needed for the native Android app; leave unset to reflect any origin.
+      - key: CORS_ORIGINS
+        sync: false
