@@ -159,5 +159,11 @@ export class MailService {
       const detail = await res.text();
       throw new Error(`Brevo API ${res.status}: ${detail}`);
     }
+
+    // Confirm acceptance in the logs (Brevo returns a messageId). If this
+    // logs but no email arrives, the issue is delivery-side (unverified
+    // sender, spam folder, or recipient), not the API call.
+    const accepted = await res.text();
+    this.logger.log(`Brevo accepted email to ${to}: ${accepted}`);
   }
 }
